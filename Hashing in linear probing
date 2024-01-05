@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+int hash(int key) {
+    return key % SIZE;
+}
+int linearProbe(int hashValue, int i) {
+    return (hashValue + i) % SIZE;
+}
+void insert(int hashTable[], int key) {
+    int hashValue = hash(key);
+    if (hashTable[hashValue] == -1) {
+        hashTable[hashValue] = key;
+    } else {
+        int i = 1;
+        while (i < SIZE) {
+            int index = linearProbe(hashValue, i);
+            if (hashTable[index] == -1) {
+                hashTable[index] = key;
+                return;
+            }
+            i++;
+        }
+   printf("Hash table is full, cannot insert %d.\n", key);
+    }
+}
+void display(int hashTable[]) {
+    printf("Hash Table: ");
+    for (int i = 0; i < SIZE; i++) {
+        if (hashTable[i] != -1) {
+            printf("%d ", hashTable[i]);
+        } else {
+            printf("- ");
+        }
+    }
+    printf("\n");
+}
+int main() {
+    int hashTable[SIZE];
+    for (int i = 0; i < SIZE; i++) {
+        hashTable[i] = -1;
+    }
+    insert(hashTable, 5);
+    insert(hashTable, 25);
+    insert(hashTable, 15);
+    insert(hashTable, 35);
+    display(hashTable);
+    return 0;
+}
